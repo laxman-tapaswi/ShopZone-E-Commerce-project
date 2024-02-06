@@ -20,10 +20,10 @@ router.route("/register").post(registerUser);
 //  Login User : http://localhost:6000/api/v1/user/login
 router.route("/login").post(loginUser);
 
-//  Login User : http://localhost:6000/api/v1/user/admin/users
+//  Asmin get all User : http://localhost:6000/api/v1/user/admin/users
 router.route("/admin/users").get(isAuth, isAdmin, getAllUsers);
 
-//  Login User : http://localhost:6000/api/v1/user/admin/users
+//  Admin get single User : http://localhost:6000/api/v1/user/admin/users
 router.route("/admin/:userid").get(isAuth, isAdmin, getSingleUser);
 
 module.exports = router;
