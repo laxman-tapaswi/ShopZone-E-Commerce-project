@@ -16,8 +16,11 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 //  import all routes
+const userRoute = require("./routes/user.route");
 
 //  all routes
+app.use("/api/v1/users", userRoute);
+
 app.get("/", (req, res) => {
   res.send("<h1>Server is working</h1>");
 });
