@@ -44,7 +44,7 @@ exports.loginUser = AsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler(400, "All field required to register")); //// //check fields value are empty or not
   }
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
     return next(new ErrorHandler(404, "User not found"));

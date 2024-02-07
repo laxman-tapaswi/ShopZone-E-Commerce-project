@@ -16,10 +16,16 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 //  import all routes
-const userRoute = require("./routes/user.route");
+const user = require("./routes/user.route");
+const product = require("./routes/product.route");
+const cart = require("./routes/cart.route");
+const wishlist = require("./routes/wishlist.route");
 
 //  all routes
-app.use("/api/v1/users", userRoute);
+app.use("/api/v1/users", user);
+app.use("/api/v1/product", product);
+app.use("/api/v1/cart", cart);
+app.use("/api/v1/wishlist", wishlist);
 
 app.get("/", (req, res) => {
   res.send("<h1>Server is working</h1>");
