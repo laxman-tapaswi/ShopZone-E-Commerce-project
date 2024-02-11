@@ -1,0 +1,126 @@
+import styled from "@emotion/styled";
+import { Button, Grid, Paper, Typography } from "@mui/material";
+import Layout from "../../layout/Layout";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { LoginUser } from "../../../redux/actions/userAction";
+
+const initalState = {
+  email: "",
+  password: "",
+};
+
+const Login = () => {
+  const [loginData, setLoginData] = useState(initalState);
+  //   const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const newEntry = { ...loginData, [e.target.name]: e.target.value };
+    setLoginData(newEntry);
+  };
+
+  const handleSubmit = (e) => {
+    console.log(`logindata ${loginData}`);
+    console.log("logindata", loginData);
+    e.preventDefault();
+    // dispatch(LoginUser(loginData));
+  };
+
+  return (
+    <Layout>
+      <Container>
+        <PaperStyle elevation={3}>
+          <Grid container flex justifyContent="center" alignItems="center">
+            <Grid item sm={12} md={11} xl={10}>
+              <FormWrapper>
+                <Typography>Login to Account</Typography>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    name="email"
+                    value={loginData.email}
+                    type="text"
+                    required
+                    onChange={(e) => handleChange(e)}
+                    placeholder="Your Email"
+                  />
+                  <input
+                    name="password"
+                    value={loginData.password}
+                    type="password"
+                    required
+                    onChange={(e) => handleChange(e)}
+                    placeholder="Your Password"
+                  />
+                  <p>
+                    <Link to="/forgot-password">Forgot Password ?</Link>
+                  </p>
+                  <Button type="submit">submit</Button>
+                  <Link to="/signup">
+                    <Button>Alread have an account</Button>
+                  </Link>
+                </form>
+              </FormWrapper>
+            </Grid>
+          </Grid>
+        </PaperStyle>
+      </Container>
+    </Layout>
+  );
+};
+
+export default Login;
+
+const Container = styled("div")({
+  display: "flex",
+  width: "100%",
+  height: "79vh",
+  alignItems: "center",
+  justifyContent: "center",
+});
+const PaperStyle = styled(Paper)({
+  width: "400px",
+  textAlign: "center",
+});
+
+const FormWrapper = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  gap: "30px",
+  p: {
+    marginTop: "20px",
+    fontSize: "19px",
+    fontWeight: "700",
+    color: "#d2691e",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    // gap: "30px",
+    padding: " 10px 20px",
+    input: {
+      marginBottom: "25px",
+      padding: "8px 8px",
+      fontSize: "14px",
+      borderRadius: "6px",
+      outline: "none",
+      border: "none",
+      backgroundColor: "#e5e5e5",
+      color: "#474040",
+    },
+    p: {
+      marginTop: "0px",
+      left: "8px",
+      a: {
+        fontSize: "14px",
+        fontWeight: "400",
+        color: "grey",
+        textDecoration: "none",
+      },
+    },
+    button: {
+      marginBottom: "15px",
+      color: "#d2691e",
+    },
+  },
+});
