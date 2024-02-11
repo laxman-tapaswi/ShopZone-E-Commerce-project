@@ -1,5 +1,5 @@
-const AsyncHandler = (Fun) => async (re, res, next) => {
-  return new Promise.resolve(Fun(req, res)).catch(next);
+const AsyncHandler = (Fun) => async (req, res, next) => {
+  Promise.resolve(Fun(req, res, next)).catch(next);
 };
 
 module.exports = AsyncHandler;

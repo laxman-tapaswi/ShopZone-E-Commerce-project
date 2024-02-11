@@ -4,13 +4,13 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 //  register user
 exports.registerUser = AsyncHandler(async (req, res, next) => {
-  const { name, email, password, phoneNo } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!name || !email || !password || !phoneNo) {
+  if (!name || !email || !password) {
     return next(new ErrorHandler(400, "All field is required")); // //check fields are empty or not
   }
 
-  if ([name, email, password, phoneNo].some((field) => field === "")) {
+  if ([name, email, password].some((field) => field === "")) {
     return next(new ErrorHandler(400, "All field required to register")); // //check fields value are empty or not
   }
   let user = await User.findOne({ email });
@@ -23,7 +23,6 @@ exports.registerUser = AsyncHandler(async (req, res, next) => {
     name,
     email,
     password,
-    phoneNo,
   });
 
   return res.status(200).json({
@@ -70,11 +69,12 @@ exports.loginUser = AsyncHandler(async (req, res, next) => {
 exports.getAllUsers = AsyncHandler(async (req, res, next) => {
   const users = await User.find({});
   if (!users) {
-    return next(new ErrorHandler(400, "No Customer"));
+    return next(new ErrorHandler(400, "No users"));
   }
 
   return res.status(200).json({
     success: true,
+    totalUser: users.length,
     users,
   });
 });
@@ -89,6 +89,50 @@ exports.getSingleUser = AsyncHandler(async (req, res, next) => {
 
   return res.status(200).json({
     success: true,
+    user,
+  });
+});
+
+//   user profile
+exports.userProfile = AsyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  return res.status(200).json({
+    success: true,
+    message: "user profile",
+    user,
+  });
+});
+
+//  update user profile
+exports.UpdateProfile = AsyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { ...req.body },
+    { new: true }
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: "user profile updated  successfully",
+    user,
+  });
+});
+
+//  update user password
+exports.UpdatePaasword = AsyncHandler(async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id).select("+password");
+
+  let isMatch = await user.matchPassord(oldPassword);
+  if (isMatch) {
+    user.password = newPassword;
+    await user.save();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "user password successfully",
     user,
   });
 });

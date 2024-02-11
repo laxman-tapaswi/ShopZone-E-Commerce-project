@@ -18,14 +18,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Please Enter Password"],
+      min: [6, "Password should be 6 character"],
       trim: true,
       select: false,
     },
-    phoneNo: {
-      type: Number,
-      required: true,
-      max: [10, "phoneNo shoul be 10 number"],
-    },
+
     role: {
       type: String,
       enum: ["admin", "user"],
@@ -51,7 +48,7 @@ userSchema.methods.matchPassord = async function (password) {
 
 // user generate token
 userSchema.methods.generateToken = function () {
-  let token = jwt.sign({ _id: this._id }, process.env.WT_TOKEN_SECRET, {
+  let token = jwt.sign({ _id: this._id }, process.env.JWT_TOKEN_SECRET, {
     expiresIn: "3d",
   }); // { expiresIn: '1d' }
   return token;

@@ -7,7 +7,7 @@ exports.isAuth = async (req, res, next) => {
 
     if (!token) return res.json({ message: "token expire" });
 
-    const decoded = jwt.verify(token, process.env.WT_TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
     if (!decoded) return res.json({ message: "invalid token" });
 

@@ -2,7 +2,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    return cb(null, "./public/temp");
+    return cb(null, "upload");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();

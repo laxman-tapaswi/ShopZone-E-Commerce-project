@@ -3,12 +3,12 @@ const AsyncHandler = require("../utils/AsyncHandler");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 exports.AddToCart = AsyncHandler(async (req, res, next) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
 
   if (!req.user) {
     return next(new ErrorHandler(404, "user not found Please login"));
   }
-  if (!productId && productId === "") {
+  if (!productId || productId === "") {
     return next(new ErrorHandler(400, "Product is required to procced"));
   }
 
@@ -20,13 +20,13 @@ exports.AddToCart = AsyncHandler(async (req, res, next) => {
     const existingCartItem = cart.items.find((item) =>
       item.productId.equals(productId)
     );
-    console.log("exititem", existingCartItem);
+    console.log("exititem");
 
     if (existingCartItem) {
       return next(new ErrorHandler(400, "Product is already in cart"));
     } else {
       // If the product is not in the cart, add it
-      cart.items.push(productId);
+      cart.items.push({ productId, quantity: 1 });
     }
   }
   await cart.save();
@@ -44,9 +44,10 @@ exports.getCartByUserId = AsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler(404, "user not found Please login"));
   }
 
-  const carts = await Cart.findOne({ userId: req.user._id }).populate(
-    "items.productId"
-  );
+  const carts = await Cart.findOne({ userId: req.user._id }).populate({
+    path: "items.productId",
+    select: "name price image",
+  });
 
   if (!carts) {
     return next(new ErrorHandler(404, "User does have any cart item"));

@@ -14,12 +14,12 @@ const productSchema = new Schema(
     price: {
       type: Number,
       required: [true, "Please Enter product Price"],
-      max: [6, "Price cannot exceed 6 characters"],
+      maxLength: [6, "Price cannot exceed 6 characters"],
     },
     stock: {
       type: Number,
       required: [true, "Please Enter product Stock"],
-      max: [4, "Stock cannot exceed 4 characters"],
+      maxLength: [4, "Stock cannot exceed 4 characters"],
       default: 1,
     },
     image: {
@@ -36,6 +36,10 @@ const productSchema = new Schema(
       required: [true, "Please Enter Product Category"],
     },
     ratings: {
+      type: Number,
+      default: 0,
+    },
+    NoOfReviews: {
       type: Number,
       default: 0,
     },
@@ -69,6 +73,6 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-const Product = model("product", productSchema);
+const Product = model("Product", productSchema);
 
 module.exports = Product;

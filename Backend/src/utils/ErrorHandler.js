@@ -1,18 +1,11 @@
 class ErrorHandler extends Error {
-  constructor(
-    statuCode,
-    message = "something Wrong",
-    errors = [],
-    statck = ""
-  ) {
-    this.statusCode = statuCode;
+  constructor(statusCode, message) {
+    super(message);
+    this.statusCode = statusCode;
     this.message = message;
-    this.errors = errors;
-    if (statck) {
-      this.stack = statck;
-    } else {
-      Error.captureStackTrace(this, this.constructor);
-    }
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }
+
 module.exports = ErrorHandler;

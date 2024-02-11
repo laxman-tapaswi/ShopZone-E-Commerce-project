@@ -21,6 +21,7 @@ const ErrorMiddleware = (err, req, res, next) => {
     return res.status(statuCode).json({
       success: false,
       message,
+      // error: err.stack,
     });
   }
 
